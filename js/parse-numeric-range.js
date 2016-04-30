@@ -1,33 +1,35 @@
-function parsePart(str) {
-  // just a number
-  if(/^-?\d+$/.test(str)) {
-    return parseInt(str, 10);
-  }
-  var m;
-  // 1-5 or 1..5 (equivilant) or 1...5 (doesn't include 5)
-  if((m = str.match(/^(-?\d+)(-|\.\.\.?|\u2025|\u2026|\u22EF)(-?\d+)$/))) {
-    var lhs = m[1];
-    var sep = m[2];
-    var rhs = m[3];
-    if(lhs && rhs) {
-      lhs = parseInt(lhs);
-      rhs = parseInt(rhs);
-      var res = [];
-      var incr = lhs < rhs ? 1 : -1;
+var rangeParser = {};
 
-      // Make it inclusive by moving the right 'stop-point' away by one.
-      if(sep == '-' || sep == '..' || sep == '\u2025') {
-        rhs += incr;
-      }
-
-      for(var i=lhs; i != rhs; i += incr) res.push(i);
-      return res;
+rangeParser.parse = function(str) {
+  function parsePart(str) {
+    // just a number
+    if(/^-?\d+$/.test(str)) {
+      return parseInt(str, 10);
     }
-  }
-  return [];
-}
+    var m;
+    // 1-5 or 1..5 (equivilant) or 1...5 (doesn't include 5)
+    if((m = str.match(/^(-?\d+)(-|\.\.\.?|\u2025|\u2026|\u22EF)(-?\d+)$/))) {
+      var lhs = m[1];
+      var sep = m[2];
+      var rhs = m[3];
+      if(lhs && rhs) {
+        lhs = parseInt(lhs);
+        rhs = parseInt(rhs);
+        var res = [];
+        var incr = lhs < rhs ? 1 : -1;
 
-module.exports.parse = function(str) {
+        // Make it inclusive by moving the right 'stop-point' away by one.
+        if(sep == '-' || sep == '..' || sep == '\u2025') {
+          rhs += incr;
+        }
+
+        for(var i=lhs; i != rhs; i += incr) res.push(i);
+        return res;
+      }
+    }
+    return [];
+  }
+
   var parts = str.split(',');
 
   var toFlatten = parts.map(function(el) {
