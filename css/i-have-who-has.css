@@ -1,3 +1,22 @@
+@media print
+{
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+}
+
+.controls {
+    position: fixed;
+    top: 1em;
+    right: 1em;
+}
+
+.data {
+  width: 40em;
+  height: 20em;
+}
+
 .i-have-who-has{
    content: "";
    border: solid 1px black;
@@ -25,7 +44,7 @@
   max-width: 250px;
   width: 100%;
   clear: right;
-} 
+}
 .whohas:after {
   content: "?";
 }

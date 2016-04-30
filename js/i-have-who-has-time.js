@@ -1,60 +1,56 @@
-var times = [
-  "8:55",
-  "9:30",
-  "10:17",
-  "11:03",
-  "11:45",
-  "12:08",
-  "12:55",
-  "1:20",
-  "1:40",
-  "2:08",
-  "2:35",
-  "3:10",
-  "3:38",
-  "4:09",
-  "4:42",
-  "5:05",
-  "5:38",
-  "5:59",
-  "6:11",
-  "6:53",
-  "7:09",
-  "7:27",
-  "7:58",
-  "8:17",
-  "8:49",
-  "9:15",
-  "9:35",
-  "10:06",
-  "10:30",
-  "11:07",
-];
+function setupUi() {
+  var ui;
 
-var iHaveWhoHas = d3.select(".worksheet").selectAll(".i-have-who-has").data(times)
-      .enter().append("div").classed("i-have-who-has", true)
-      .each(function (d, i) {
-        d3.select(this).append("div").classed("mascot", true);
-        d3.select(this).append("div").classed("ihave", true).attr("id", "clock" + i)
-          .each(function(d) {
-            var time = d.split(":");
-            var theTime = new Date();
-            theTime.setHours(time[0]);
-            theTime.setMinutes(time[1]);
-            d3clock({
-              target:'#clock'+i,
-              date: theTime,
-              face:'braun',
-              width:250,
-              height:250,
-            });
-          });
-        d3.select(this).append("div").classed("whohas", true)
-          .each(function(d) {
-            d3.select(this).append("span").text(times[(i+1)%times.length]);
-          });;
+  ui = d3.select("#button-manual-generate");
+  ui.on('click', generateManually);
+}
+
+function generateManually() {
+  var manualData = d3.select("#manual-data")[0][0].value;
+  var times = manualData.split("\n");
+  if (times.length < 2) {
+    console.log("ERROR: Needs at least two lines of data");
+    return;
+  }
+  generate(times);
+}
+
+//var nums = rangeParser.parse('4,6,8-10,12,14..16,18,20...23');
+//console.log(nums.join(", "));
+
+function generate(times) {
+  console.log("generating");
+  var iHaveWhoHas = d3.select(".worksheet").selectAll(".i-have-who-has").data(times);
+  var newOnes = iHaveWhoHas.enter().append("div").classed("i-have-who-has", true);
+  newOnes.append("div").classed("mascot", true);
+  newOnes.append("div").classed("ihave", true);
+  newOnes.append("div").classed("whohas", true).append("span");
+
+  iHaveWhoHas.each(function (d, i) {
+    d3.select(this).select(".ihave").attr("id", "clock" + i)
+      .each(function(d) {
+        d3.select(this).select("svg").remove();
+        var time = d.split(":");
+        var theTime = new Date();
+        theTime.setHours(time[0]);
+        theTime.setMinutes(time[1]);
+        d3clock({
+          target: '#clock'+i,
+          date: theTime,
+          face: 'braun',
+          width: 250,
+          height: 250
+        });
       });
+    d3.select(this).select(".whohas > span")
+      .each(function(d) {
+        d3.select(this).text(times[(i+1)%times.length]);
+      });;
+  });
+  iHaveWhoHas.exit().remove();
 
-var answer = d3.select(".answerKey ul").selectAll(".answer").data(times, String);
-answer.enter().append("li").classed("answer", true).text(function (d) { return d;});
-answer.exit().remove();
+  var answer = d3.select(".answerKey ul").selectAll(".answer").data(times, String);
+  answer.enter().append("li").classed("answer", true);
+  answer.text(function (d) { return d;});
+  answer.exit().remove();
+}

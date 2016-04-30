@@ -1,24 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>I Have, Who Has - Time</title>
-        <link rel="stylesheet" type="text/css" href="css/i-have-who-has.css">
-    </head>
+  <head>
+    <meta charset="utf-8">
+    <title>I Have, Who Has - Time</title>
+    <link rel="stylesheet" type="text/css" href="css/i-have-who-has.css">
+  </head>
 
-    <body>
-        <div class="worksheet"></div>
-        <div class="answerKey">
-            <h1>Answer Key</h1>
-            <ul>
-                <li class="answer">Answers go here
-            </ul>
-        </div>
+  <body onload="setupUi()">
+    <div class="controls no-print">
+      <h1>Configuration</h1>
+      <fieldset>
+        <legend>Manually Generate</legend>
+        <textarea id="manual-data" class="data" placeholder="A newline separated list of times. Each line generates a card linked to the next line."></textarea>
+        <button id="button-manual-generate">Generate</button>
+      </fieldset>
 
-        <!-- load the d3.js library -->	
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
-        <script src="js/d3clock.js"></script>
-        <script src="js/i-have-who-has-time.js"></script>
+      <fieldset>
+        <legend>Randomly Generate</legend>
+        <label labelFor="numberOfCards">Number of Cards: </label>
+        <input name="numberOfCards" placeholder="Number of cards to generate" >
+        <label labelFor="hours">Hours: </label>
+        <input name="hours" placeholder="A list of hours to use in generation; defaults to 1-12" >
+        <button>Generate Hours Only</button>
+      </fieldset>
 
-    </body>
+    </div>
+    <div class="worksheet"></div>
+    <div class="answerKey">
+      <h1>Answer Key</h1>
+      <ul>
+        <li class="answer">Answers go here
+      </ul>
+    </div>
+
+    <!-- load the d3.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
+    <script src="js/d3clock.js"></script>
+    <script src="js/parse-numeric-range.js"></script>
+    <script src="js/i-have-who-has-time.js"></script>
+
+  </body>
 </html>
