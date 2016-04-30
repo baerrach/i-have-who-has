@@ -3,27 +3,93 @@
   <head>
     <meta charset="utf-8">
     <title>I Have, Who Has - Time</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap-3.3.6.css">
     <link rel="stylesheet" type="text/css" href="css/i-have-who-has.css">
   </head>
 
   <body onload="setupUi()">
-    <div class="controls no-print">
-      <h1>Configuration</h1>
-      <fieldset>
-        <legend>Manually Generate</legend>
-        <textarea id="manual-data" class="data" placeholder="A newline separated list of times. Each line generates a card linked to the next line."></textarea>
-        <button id="button-manual-generate">Generate</button>
-      </fieldset>
-
-      <fieldset>
-        <legend>Randomly Generate</legend>
-        <label labelFor="numberOfCards">Number of Cards: </label>
-        <input name="numberOfCards" placeholder="Number of cards to generate" >
-        <label labelFor="hours">Hours: </label>
-        <input name="hours" placeholder="A list of hours to use in generation; defaults to 1-12" >
-        <button>Generate Hours Only</button>
-      </fieldset>
-
+    <div class="container-fluid controls no-print">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>Configuration</h1>
+        </div>
+      </div> 
+      <div class="row">
+        <div class="col-md-12">
+          <fieldset>
+            <legend>Manually Generate</legend>
+            <div class="row">
+              <div class="col-md-12">
+                <textarea id="manual-data" class="data" placeholder="A newline separated list of times. Each line generates a card linked to the next line."></textarea>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <button id="button-manual-generate" class="btn btn-default">Generate</button>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <fieldset>
+            <legend>Randomly Generate</legend>
+            <div class="row">
+              <div class="col-md-5">
+                <label labelFor="numberOfCards">Number of Cards: </label>
+              </div>
+              <div class="col-md-7">
+                <input name="numberOfCards" placeholder="defaults to 30" >
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-5">
+                <label labelFor="hours">Hours: </label>
+              </div>
+              <div class="col-md-7">
+                <input name="hours" placeholder="defaults to 1-12" >
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-5">
+                <label labelFor="minutes">Minutes: </label>
+              </div>
+              <div class="col-md-7">
+                <input name="minutes" placeholder="defaults to 0-59" >
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <button class="btn btn-default">Generate Automatically</button>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <fieldset>
+            <legend>Presets</legend>
+            <div class="row">
+              <div class="col-md-12">
+                <button class="btn btn-default">Generate o'clocks</button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <button class="btn btn-default">Generate o'clock and half hours</button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <button class="btn btn-default">Generate o'clock and quarter hours</button>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </div>
     </div>
     <div class="worksheet"></div>
     <div class="answerKey">
@@ -34,7 +100,8 @@
     </div>
 
     <!-- load the d3.js library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
+    <script src="js/d3-3.5.16.js"></script>
+    <script src="js/bootstrap-3.3.6.min.js"></script>
     <script src="js/d3clock.js"></script>
     <script src="js/parse-numeric-range.js"></script>
     <script src="js/i-have-who-has-time.js"></script>
