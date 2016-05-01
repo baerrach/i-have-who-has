@@ -21,6 +21,11 @@
     From https://github.com/danielpradilla/d3clock
     MIT LICENSE
 
+## js/jquery-2.2.2.min.js, js/jquery-2.2.2.min.js ##
+
+    http://jquery.org/license/
+    MIT License
+
 ## js/parse-numeric-range.js ##
 
     js/parse-numeric-range.js.LICENSE
