@@ -1,18 +1,50 @@
-function setupUi() {
-  var ui;
+defaults = {
+  numberOfCards: 30,
+  hours: "1-12",
+  minutes: "0-59"
+};
+ui = {};
 
-  ui = d3.select("#button-manual-generate");
-  ui.on('click', generateManually);
+function setupUi() {
+  d3.select("#button-generate-manually").on('click', generateManually);
+  d3.select("#button-generate-randomly").on('click', generateRandomly);
+  d3.select("#button-preset-oclock").on('click', presetOclockOnly);
+  d3.select("#button-preset-oclock-and-half-hour").on('click', presetOclockAndHalfHour);
+  d3.select("#button-preset-oclock-and-quarter-hour").on('click', presetOclockAndQuarterHour);
+
+  // These are unique and we want the html element not the d3 wrapper
+  ui.manualData = d3.select("#manual-data")[0][0];
+  ui.numberOfCards = d3.select("#numberOfCards")[0][0];
+  ui.hours = d3.select("#hours")[0][0];
+  ui.minutes = d3.select("#minutes")[0][0];
 }
 
 function generateManually() {
-  var manualData = d3.select("#manual-data")[0][0].value;
+  var manualData =  ui.manualData.value;
   var times = manualData.split("\n");
   if (times.length < 2) {
     console.log("ERROR: Needs at least two lines of data");
     return;
   }
   generate(times);
+}
+
+function generateRandomly() {
+}
+
+function presetOclockOnly() {
+  ui.hours.value = defaults.hours;
+  ui.minutes.value = "00";
+}
+
+function presetOclockAndHalfHour() {
+  ui.hours.value = defaults.hours;
+  ui.minutes.value = "00,30";
+}
+
+function presetOclockAndQuarterHour() {
+  ui.hours.value = defaults.hours;
+  ui.minutes.value = "00,15,30,45";
 }
 
 //var nums = rangeParser.parse('4,6,8-10,12,14..16,18,20...23');
