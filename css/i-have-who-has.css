@@ -1,29 +1,20 @@
-@media print
-{
-    .no-print, .no-print *
-    {
-        display: none !important;
-    }
-}
-
 .controls {
-    position: fixed;
-    top: 1em;
-    right: 1em;
+  position: fixed;
+  top: 1em;
+  right: 1em;
 }
 
-.data {
-  width: 10em;
+.data.form-control {
   height: 10em;
 }
 
 .i-have-who-has{
-   content: "";
-   border: solid 1px black;
-   margin: 10px;
-   min-height: 340px;
-   min-width: 500px;
-   clear:both;
+  content: "";
+  border: solid 1px black;
+  margin: 10px;
+  min-height: 340px;
+  min-width: 500px;
+  clear:both;
 }
 .ihave:before {
   content: "I have";
@@ -57,23 +48,24 @@
   margin-top: 30px;
   padding-left: 30px;
 }
+.worksheet {
+  font-size: 150%;
+}
+.answer-key {
+  font-size: 150%;
+}
 
 p {
-    line-height: 135%;
-    margin-bottom: 1em;
+  line-height: 135%;
+  margin-bottom: 1em;
 }
 
 body {
-    margin:0;
-    padding:0;
-    max-width: 500px;
-    text-rendering: optimizelegibility;
-    width: 50%;
-    font-family: "Californian FB","Lucida Grande";
-}
-
-body > * {
-    font-size: 150%;
+  max-width: 500px;
+  width: 50%;
+  text-rendering: optimizelegibility;
+  font-family: 14px/16px "Roboto", Helvetica, Arial, sans-serif;
+  text-rendering: optimizelegibility;
 }
 
 @media print {
@@ -91,4 +83,5 @@ body > * {
   h1 { page-break-before: always; }
   h2, h3 { page-break-after: avoid; }
   .i-have-who-has { page-break-inside: avoid; }
+  .no-print, .no-print * { display: none !important; }
 }
