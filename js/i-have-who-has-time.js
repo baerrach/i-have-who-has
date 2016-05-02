@@ -150,8 +150,8 @@ function generate(times) {
           target: '#clock'+i,
           date: theTime,
           face: 'braun',
-          width: 250,
-          height: 250
+          width: 225,
+          height: 225
         });
       });
     d3.select(this).select(".whohas > span")
