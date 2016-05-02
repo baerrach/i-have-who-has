@@ -40,11 +40,11 @@
   content: "?";
 }
 .mascot {
-  content: url(http://images.clipartpanda.com/black-and-white-tree-clipart-aceKKync4.gif);
+  content: url(../images/Pocketwatch_cutaway_drawing.jpg);
   float: left;
-  max-width: 250px;
-  width: 180px;
-  height: auto;
+  max-width: 240px;
+  width: 74%;
+  height: 74%;
   margin-top: 30px;
   padding-left: 30px;
 }
