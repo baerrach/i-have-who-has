@@ -1,9 +1,48 @@
+// Polyfill
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes
+if (!Array.prototype.includes) {
+  Array.prototype.includes = function(searchElement /*, fromIndex*/ ) {
+    'use strict';
+    var O = Object(this);
+    var len = parseInt(O.length) || 0;
+    if (len === 0) {
+      return false;
+    }
+    var n = parseInt(arguments[1]) || 0;
+    var k;
+    if (n >= 0) {
+      k = n;
+    } else {
+      k = len + n;
+      if (k < 0) {k = 0;}
+    }
+    var currentElement;
+    while (k < len) {
+      currentElement = O[k];
+      if (searchElement === currentElement ||
+          (searchElement !== searchElement && currentElement !== currentElement)) { // NaN !== NaN
+        return true;
+      }
+      k++;
+    }
+    return false;
+  };
+}
+
 defaults = {
   numberOfCards: 30,
   hours: "1-12",
   minutes: "0-59"
 };
 ui = {};
+
+function onlyUnique(value, index, self) {
+  return self.indexOf(value) === index;
+}
+
+function pickRandomElement(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
 
 function setupUi() {
   d3.select("#button-generate-manually").on('click', generateManually);
@@ -30,28 +69,69 @@ function generateManually() {
 }
 
 function generateRandomly() {
+  var numberOfCards,
+      hours,
+      minutes,
+      generationSpace,
+      card,
+      cards = [];
+
+  numberOfCards = ui.numberOfCards.value;
+  if ("" === numberOfCards) {
+    numberOfCards = defaults.numberOfCards;
+  }
+
+  hours = ui.hours.value;
+  if ("" === hours) {
+    hours = defaults.hours;
+  }
+  hours = rangeParser.parse(hours).filter( onlyUnique );
+
+  minutes = ui.minutes.value;
+  if ("" === minutes) {
+    minutes = defaults.minutes;
+  }
+  minutes = rangeParser.parse(minutes).filter( onlyUnique );
+
+  generationSpace = hours.length * minutes.length;
+  if (numberOfCards > generationSpace) {
+    console.log( "ERROR: number of cards requested more than possible number of cards that can be generated.");
+    numberOfCards = generationSpace;
+  }
+
+  while (cards.length < numberOfCards) {
+    card = pickRandomElement(hours);
+    card += ":";
+    card += ("0" + pickRandomElement(minutes)).slice(-2); // ensure 0-9 -> 00 - 09
+
+    if (!cards.includes(card)) {
+      cards.push(card);
+    }
+  }
+
+  ui.manualData.value = cards.join("\n");
+  generateManually();
 }
 
 function presetOclockOnly() {
   ui.hours.value = defaults.hours;
   ui.minutes.value = "00";
+  generateRandomly();
 }
 
 function presetOclockAndHalfHour() {
   ui.hours.value = defaults.hours;
   ui.minutes.value = "00,30";
+  generateRandomly();
 }
 
 function presetOclockAndQuarterHour() {
   ui.hours.value = defaults.hours;
   ui.minutes.value = "00,15,30,45";
+  generateRandomly();
 }
 
-//var nums = rangeParser.parse('4,6,8-10,12,14..16,18,20...23');
-//console.log(nums.join(", "));
-
 function generate(times) {
-  console.log("generating");
   var iHaveWhoHas = d3.select(".worksheet").selectAll(".i-have-who-has").data(times);
   var newOnes = iHaveWhoHas.enter().append("div").classed("i-have-who-has", true);
   newOnes.append("div").classed("mascot", true);
@@ -81,8 +161,8 @@ function generate(times) {
   });
   iHaveWhoHas.exit().remove();
 
-  var answer = d3.select(".answerKey ul").selectAll(".answer").data(times, String);
+  var answer = d3.select(".answer-key ul").selectAll(".answer").data(times);
   answer.enter().append("li").classed("answer", true);
-  answer.text(function (d) { return d;});
+  answer.text(function (d) { return d; });
   answer.exit().remove();
 }
