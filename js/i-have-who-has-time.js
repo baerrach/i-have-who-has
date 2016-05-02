@@ -134,7 +134,7 @@ function presetOclockAndQuarterHour() {
 function generate(times) {
   var iHaveWhoHas = d3.select(".worksheet").selectAll(".i-have-who-has").data(times);
   var newOnes = iHaveWhoHas.enter().append("div").classed("i-have-who-has", true);
-  newOnes.append("div").classed("mascot", true);
+  newOnes.append("div").classed("mascot", true).classed("fit-image", true);
   newOnes.append("div").classed("ihave", true);
   newOnes.append("div").classed("whohas", true).append("span");
 
