@@ -35,3 +35,8 @@
     js/parse-numeric-range.js.LICENSE
     From https://www.npmjs.com/package/parse-numeric-range
     Genericly worded open license
+
+## js/URI.min.js ##
+
+    https://raw.githubusercontent.com/medialize/URI.js/gh-pages/LICENSE.txt
+    MIT LICENSE
