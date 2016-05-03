@@ -56,16 +56,27 @@ function setupUi() {
   ui.numberOfCards = d3.select("#numberOfCards")[0][0];
   ui.hours = d3.select("#hours")[0][0];
   ui.minutes = d3.select("#minutes")[0][0];
+
+  if (history.state) {
+    setState(history.state);
+  }
+  else {
+    var uri = URI();
+    setState(uri.query(true));
+  }
 }
 
-function generateManually() {
+function generateManually(ignorePushState) {
+  if (undefined === ignorePushState) {
+    ignorePushState = false;
+  }
   var manualData =  ui.manualData.value;
   var times = manualData.split("\n");
   if (times.length < 2) {
     console.log("ERROR: Needs at least two lines of data");
     return;
   }
-  generate(times);
+  generate(times, ignorePushState);
 }
 
 function generateRandomly() {
@@ -131,7 +142,7 @@ function presetOclockAndQuarterHour() {
   generateRandomly();
 }
 
-function generate(times) {
+function generate(times, ignorePushState) {
   var iHaveWhoHas = d3.select(".worksheet").selectAll(".i-have-who-has").data(times);
   var newOnes = iHaveWhoHas.enter().append("div").classed("i-have-who-has", true);
   newOnes.append("div").classed("mascot", true).classed("fit-image", true);
@@ -165,4 +176,44 @@ function generate(times) {
   answer.enter().append("li").classed("answer", true);
   answer.text(function (d) { return d; });
   answer.exit().remove();
+
+  if (!ignorePushState) {
+    updateURL();
+  }
 }
+
+function updateURL() {
+  var uri = URI("");
+  var state = {};
+
+  state.manualData = ui.manualData.value;
+  state.numberOfCards = ui.numberOfCards.value;
+  state.hours = ui.hours.value;
+  state.minutes = ui.minutes.value;
+
+  uri.setQuery(state);
+
+  history.pushState(state, "", uri);
+}
+
+function setState(state) {
+  if (state) {
+    if ("manualData" in state) {
+      ui.manualData.value = state.manualData;
+    }
+    if ("numberOfCards" in state) {
+      ui.numberOfCards.value = state.numberOfCards;
+    }
+    if ("hours" in state) {
+      ui.hours.value = state.hours;
+    }
+    if ("minutes" in state) {
+      ui.minutes.value = state.minutes;
+    }
+    generateManually(false);
+  }
+}
+
+window.onpopstate = function(event) {
+  setState(event.state);
+};
