@@ -29,12 +29,12 @@ if (!Array.prototype.includes) {
   };
 }
 
-defaults = {
+var defaults = {
   numberOfCards: 30,
   hours: "1-12",
   minutes: "0-59"
 };
-ui = {};
+var ui = {};
 
 function onlyUnique(value, index, self) {
   return self.indexOf(value) === index;
@@ -50,12 +50,14 @@ function setupUi() {
   d3.select("#button-preset-oclock").on('click', presetOclockOnly);
   d3.select("#button-preset-oclock-and-half-hour").on('click', presetOclockAndHalfHour);
   d3.select("#button-preset-oclock-and-quarter-hour").on('click', presetOclockAndQuarterHour);
+  d3.select("#button-apply-css").on('click', applyCss);
 
   // These are unique and we want the html element not the d3 wrapper
   ui.manualData = d3.select("#manual-data")[0][0];
   ui.numberOfCards = d3.select("#numberOfCards")[0][0];
   ui.hours = d3.select("#hours")[0][0];
   ui.minutes = d3.select("#minutes")[0][0];
+  ui.css = d3.select("#advanced-css")[0][0];
 
   if (history.state) {
     setState(history.state);
@@ -64,6 +66,8 @@ function setupUi() {
     var uri = URI();
     setState(uri.query(true));
   }
+
+  applyCss();
 }
 
 function generateManually(ignorePushState) {
@@ -210,8 +214,17 @@ function setState(state) {
     if ("minutes" in state) {
       ui.minutes.value = state.minutes;
     }
+    if ("css" in state) {
+      ui.css.value = state.css;
+    }
     generateManually(false);
   }
+}
+
+function applyCss() {
+  var customStyle = document.head.children[document.head.children.length-1];
+
+  customStyle.innerHTML = ui.css.value;
 }
 
 window.onpopstate = function(event) {

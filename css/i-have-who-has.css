@@ -50,15 +50,6 @@
   font-size: 150%;
 }
 
-.fit-image {
-  background-image: url(../images/Pocketwatch_cutaway_drawing.jpg);
-  background-repeat: no-repeat;
-  background-size: 240px 330px;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
 p {
   line-height: 135%;
   margin-bottom: 1em;
